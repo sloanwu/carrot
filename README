@@ -1,0 +1,81 @@
+You can use carrot with celerity, or another driver.
+
+1. gem 'carrot'
+
+2. add a celerity_helper
+
+3. Add some code in celerity_helper
+require 'database_cleaner' 
+require 'celerity'
+require 'carrot'
+
+ENV["RAILS_ENV"] = 'celerity' # You can change it with your enviroment
+require File.expand_path("../../config/environment", __FILE__)
+require 'rspec/rails'
+
+
+
+4. Three test styles
+a) Remote
+Carrot.configure do |config|
+  config.run_server = false
+  config.app_host = "www.google.com"
+end
+Carrot.register_driver(Celerity::Browser.new)
+
+b) Local
+Carrot.configure do |config|
+  config.run_server = true
+end
+Carrot.register_driver(Celerity::Browser.new)
+Carrot.boot
+
+c) Local, server with external ruby
+
+Carrot.configure do |config|
+  config.run_server = true
+  config.external_ruby = true
+  config.rails_command = "~/.rvm/gems/ruby-1.9.2-p0/bin/rails s -e celerity -p 3001"
+  config.project_path = "#{Rails.root}"
+  config.server_port = 3001
+  # config.server_debug = true
+end
+Carrot.register_driver(Celerity::Browser.new)
+Carrot.boot
+
+RSpec.configure do |config|
+   DatabaseCleaner.strategy = :truncation 
+  
+   config.before :each do 
+     @browser = Carrot.driver   # get native driver
+     DatabaseCleaner.clean 
+   end
+
+   config.after :all do
+     Carrot.shutdown            # shutdown server
+     DatabaseCleaner.clean 
+   end
+ 
+   config.use_transactional_fixtures = false
+
+end
+
+5 Test
+a) get url
+Carrot.url(path)
+eg:
+Carrot.url('/')        =>   http://host/
+Carrot.url('/hello')   =>   http://host/hello
+
+b) get native browser driver
+Carrot.driver
+
+6 FAQ
+a) Does Carrot support server with external ruby?
+Yes, but it just supports jruby run rspec and run server using external ruby. I use jruby to create native java process to run server using external ruby.
+
+If you want to use ruby to run rspec and run server using external ruby, you can create a new server class to support it or wait for my upgrade.
+
+
+
+
