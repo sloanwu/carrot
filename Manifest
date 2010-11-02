@@ -1,4 +1,5 @@
 Manifest
+README
 Rakefile
 carrot.gemspec
 lib/carrot.rb

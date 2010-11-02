@@ -1,8 +1,9 @@
 You can use carrot with celerity, or another driver.
 
-1. gem 'carrot'
+1. gem 'rails-carrot', :require => 'carrot'
 
 2. add a celerity_helper
+/spec/celerity_helper.rb
 
 3. Add some code in celerity_helper
 require 'database_cleaner' 
