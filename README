@@ -10,13 +10,16 @@ require 'database_cleaner'
 require 'celerity' # You can change driver
 require 'carrot'
 
-ENV["RAILS_ENV"] = 'celerity' # You can change it with your enviroment
+ENV["RAILS_ENV"] = 'celerity' # You can change it with your environment
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 
 
 
 4. Three test styles
+
+If you don't use JRuby, you just can use Remote and Local.
+
 a) Remote
 Carrot.configure do |config|
   config.run_server = false
