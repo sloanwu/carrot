@@ -59,6 +59,7 @@ module Carrot
          require 'carrot/extend_server'
          Carrot.external_server = ExtendServer.new
          Carrot.external_server.run
+
       elsif @app
         @port = Carrot::Server.ports[@app.object_id]
 

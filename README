@@ -7,7 +7,7 @@ You can use carrot with celerity, or another driver.
 
 3. Add some code in celerity_helper
 require 'database_cleaner' 
-require 'celerity'
+require 'celerity' # You can change driver
 require 'carrot'
 
 ENV["RAILS_ENV"] = 'celerity' # You can change it with your enviroment
@@ -29,9 +29,8 @@ Carrot.configure do |config|
   config.run_server = true
 end
 Carrot.register_driver(Celerity::Browser.new)
-Carrot.boot
 
-c) Local, server with external ruby
+c) Local, server with external ruby, You should use jruby to run RSpec.
 
 Carrot.configure do |config|
   config.run_server = true
@@ -42,7 +41,6 @@ Carrot.configure do |config|
   # config.server_debug = true
 end
 Carrot.register_driver(Celerity::Browser.new)
-Carrot.boot
 
 RSpec.configure do |config|
    DatabaseCleaner.strategy = :truncation 
@@ -53,7 +51,6 @@ RSpec.configure do |config|
    end
 
    config.after :all do
-     Carrot.shutdown            # shutdown server
      DatabaseCleaner.clean 
    end
  
